@@ -39,9 +39,17 @@ def index():
     """
     Basic index route for testing.
     Returns:
-        str: Text indicating where to access the video feed.
+        Video stream
     """
     return render_template('index.html')
+
+@app.route('/recorder')
+def index():
+    """
+    Recorder web app.
+    """
+    return render_template('recorder.html')
+
 
 if __name__ == "__main__":
     # Argument parser for optional port input
