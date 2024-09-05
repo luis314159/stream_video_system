@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response, render_template
 import cv2
 import argparse
 
@@ -41,7 +41,7 @@ def index():
     Returns:
         str: Text indicating where to access the video feed.
     """
-    return "Camera Streaming. Access video at /video_feed"
+    return render_template('index.html')
 
 if __name__ == "__main__":
     # Argument parser for optional port input
