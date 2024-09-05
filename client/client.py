@@ -5,7 +5,7 @@ import numpy as np
 
 # Replace this URL with the IP address of your Raspberry Pi
 ip = load_ip()
-raspberry_pi_url = f'http://{ip}/video_feed'
+raspberry_pi_url = f'http://{ip}:5000/video_feed'
 
 stream = requests.get(raspberry_pi_url, stream=True)
 
