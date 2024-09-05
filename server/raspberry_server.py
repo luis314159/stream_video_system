@@ -44,7 +44,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/recorder')
-def index():
+def recorder():
     """
     Recorder web app.
     """
