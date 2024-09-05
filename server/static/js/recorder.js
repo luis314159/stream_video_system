@@ -40,6 +40,7 @@ function startRecording() {
         const recordTime = document.getElementById('recordTime').value * 1000; // Convert to ms
         setTimeout(() => {
             stopRecording();
+            showNotification('Recording stopped automatically after ' + recordTime / 1000 + ' seconds.');
         }, recordTime);
     } else {
         alert("Please start the video stream first.");
@@ -69,6 +70,9 @@ function stopRecording() {
             // Hide the recording indicator
             const recordIndicator = document.getElementById('recordIndicator');
             recordIndicator.style.display = 'none';
+
+            // Show notification that recording has stopped
+            showNotification('Recording stopped.');
         };
     }
 }
@@ -77,4 +81,18 @@ function stopRecording() {
 function stopStream() {
     const videoStream = document.getElementById('videoStream');
     videoStream.src = ''; // Stop the video stream
+}
+
+// Show a notification message
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notificationMessage');
+
+    notificationMessage.textContent = message;
+    notification.style.display = 'block';
+
+    // Hide notification after 3 seconds
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 3000);
 }

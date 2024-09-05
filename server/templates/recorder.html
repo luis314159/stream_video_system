@@ -10,6 +10,11 @@
     <div class="container">
         <h1>Video Recorder</h1>
 
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="https://mma.prnewswire.com/media/352910/visteon_corporation_logo.jpg?p=facebook" alt="Company Logo" class="logo">
+        </div>
+
         <!-- Video Stream from Server -->
         <div class="video-container">
             <img id="videoStream" src="" alt="Video Stream">
@@ -41,6 +46,11 @@
         <!-- Recording Indicator -->
         <div class="recording-indicator" id="recordIndicator" style="display:none;">
             <span class="record-dot"></span> Recording...
+        </div>
+
+        <!-- Notification area -->
+        <div id="notification" style="display:none;" class="notification">
+            <span id="notificationMessage"></span>
         </div>
     </div>
 
