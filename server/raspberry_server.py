@@ -1,14 +1,17 @@
 from flask import Flask, Response
 import cv2
-import socket
-import threading
+import argparse
 
 app = Flask(__name__)
 
-# Initialize camera
+# Initialize the camera
 camera = cv2.VideoCapture(0)
 
 def generate_frames():
+    """
+    Continuously capture frames from the camera and convert them to a byte stream
+    in JPEG format, yielding them as part of a multipart HTTP response.
+    """
     while True:
         success, frame = camera.read()
         if not success:
@@ -24,13 +27,30 @@ def generate_frames():
 
 @app.route('/video_feed')
 def video_feed():
+    """
+    Endpoint to stream the video feed from the camera.
+    Returns:
+        Response: Streaming video in JPEG format as a multipart HTTP response.
+    """
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/')
 def index():
+    """
+    Basic index route for testing.
+    Returns:
+        str: Text indicating where to access the video feed.
+    """
     return "Camera Streaming. Access video at /video_feed"
 
 if __name__ == "__main__":
+    # Argument parser for optional port input
+    parser = argparse.ArgumentParser(description='Flask server for streaming video.')
+    parser.add_argument('--port', type=int, default=5000,
+                        help='The port number to run the server on (default: 5000).')
+
+    # Parse arguments
+    args = parser.parse_args()
+
     # Start the Flask app, accessible on the local network
-    # Replace with the IP of the Raspberry Pi, if needed.
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=args.port)
