@@ -1,15 +1,27 @@
 let mediaRecorder;
 let recordedChunks = [];
 
-// Toggle streaming video from the server
+// Toggle streaming video from the server or camera
 function toggleStream() {
     const videoStream = document.getElementById('videoStream');
     const toggle = document.getElementById('toggleStream');
 
     if (toggle.checked) {
-        videoStream.src = '/video_feed'; // URL of the Flask server video feed
+        // Intentar obtener el stream de la cámara
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+            .then((stream) => {
+                videoStream.srcObject = stream; // Asignar el stream al video
+            })
+            .catch((error) => {
+                console.error('Error accessing camera: ', error);
+            });
     } else {
-        videoStream.src = ''; // Stop the stream
+        // Detener el stream
+        let stream = videoStream.srcObject;
+        let tracks = stream.getTracks();
+
+        tracks.forEach(track => track.stop()); // Detener todas las pistas
+        videoStream.srcObject = null;
     }
 }
 
@@ -18,8 +30,8 @@ function startRecording() {
     const videoStream = document.getElementById('videoStream');
 
     // Check if the video stream is already playing
-    if (videoStream.src) {
-        const stream = videoStream.captureStream(); // Capture the stream from the video element
+    if (videoStream.srcObject) {
+        const stream = videoStream.srcObject; // Captura el stream desde el video element
         mediaRecorder = new MediaRecorder(stream);
 
         // When data is available, push it to the recordedChunks array
@@ -80,7 +92,11 @@ function stopRecording() {
 // Stop the video stream
 function stopStream() {
     const videoStream = document.getElementById('videoStream');
-    videoStream.src = ''; // Stop the video stream
+    let stream = videoStream.srcObject;
+    let tracks = stream.getTracks();
+
+    tracks.forEach(track => track.stop()); // Detener todas las pistas
+    videoStream.srcObject = null; // Stop the video stream
 }
 
 // Show a notification message
