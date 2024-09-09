@@ -11,7 +11,14 @@
         <img class="logo" src="https://mma.prnewswire.com/media/352910/visteon_corporation_logo.jpg?p=facebook">
         <h1>Video Stream</h1>
         <div class="select-container">
-            <button onclick="startStream()">Start Stream</button>
+            <!-- Toggle for Stream -->
+            <div class="toggle-container">
+                <label class="switch">
+                    <input type="checkbox" id="toggleStream" onchange="toggleStream()">
+                    <span class="slider"></span>
+                </label>
+                <span>Stream Video</span>
+            </div>
         </div>
         <div class="video-container">
             <img id="videoStream" alt="Video Stream">
