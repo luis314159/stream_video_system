@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Recorder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recorder.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Video Recorder</h1>
+
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="https://mma.prnewswire.com/media/352910/visteon_corporation_logo.jpg?p=facebook" alt="Company Logo" class="logo">
+        </div>
+
+        <!-- Video Stream -->
+        <div class="video-container">
+            <img id="videoStream" src="" alt="Video Stream">
+            <!-- <img id="videoStream" alt="Video Stream"> -->
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <!-- Toggle for Stream -->
+            <div class="toggle-container">
+                <label class="switch">
+                    <input type="checkbox" id="toggleStream" onchange="toggleStream()">
+                    <span class="slider"></span>
+                </label>
+                <span>Stream Video</span>
+            </div>
+
+            <!-- Time selection for recording -->
+            <label for="recordTime">Recording Time (seconds): </label>
+            <input type="number" id="recordTime" min="1" max="60" value="10">
+
+            <!-- Buttons for Recording -->
+            <div class="button-container">
+                <button id="startRecord" onclick="startRecording()">Start Recording</button>
+                <button id="stopRecord" onclick="stopRecording()">Stop Recording</button>
+                <button id="stopStream" onclick="stopStream()">Stop Stream</button>
+            </div>
+        </div>
+
+        <!-- Recording Indicator -->
+        <div class="recording-indicator" id="recordIndicator" style="display:none;">
+            <span class="record-dot"></span> Recording...
+        </div>
+
+        <!-- Notification area -->
+        <div id="notification" style="display:none;" class="notification">
+            <span id="notificationMessage"></span>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/recorder.js') }}"></script>
+</body>
+</html>

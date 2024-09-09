@@ -7,30 +7,21 @@ function toggleStream() {
     const toggle = document.getElementById('toggleStream');
 
     if (toggle.checked) {
-        // Intentar obtener el stream de la cámara
-        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-            .then((stream) => {
-                videoStream.srcObject = stream; // Asignar el stream al video
-            })
-            .catch((error) => {
-                console.error('Error accessing camera: ', error);
-            });
+        // Iniciar el stream desde el servidor Flask
+        videoStream.src = "/video_feed";
     } else {
-        // Detener el stream
-        let stream = videoStream.srcObject;
-        let tracks = stream.getTracks();
-
-        tracks.forEach(track => track.stop()); // Detener todas las pistas
-        videoStream.srcObject = null;
+        // Detener el stream quitando el src
+        stopStream()
+        videoStream.src = "";
     }
 }
 
-// Start recording the video stream
 function startRecording() {
     const videoStream = document.getElementById('videoStream');
 
     // Check if the video stream is already playing
-    if (videoStream.srcObject) {
+    console.log(videoStream.src)
+    if (videoStream.src != "") {
         const stream = videoStream.srcObject; // Captura el stream desde el video element
         mediaRecorder = new MediaRecorder(stream);
 
@@ -58,6 +49,7 @@ function startRecording() {
         alert("Please start the video stream first.");
     }
 }
+
 
 // Stop recording and save the video
 function stopRecording() {
@@ -92,11 +84,14 @@ function stopRecording() {
 // Stop the video stream
 function stopStream() {
     const videoStream = document.getElementById('videoStream');
-    let stream = videoStream.srcObject;
-    let tracks = stream.getTracks();
 
-    tracks.forEach(track => track.stop()); // Detener todas las pistas
-    videoStream.srcObject = null; // Stop the video stream
+    // Verifica si el stream tiene un src válido
+    if (videoStream.src && videoStream.src !== "") {
+        // Detener el stream quitando el src
+        videoStream.src = "";  // Limpiamos el src del video
+    } else {
+        console.warn("No stream to stop.");
+    }
 }
 
 // Show a notification message
